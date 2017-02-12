@@ -3,6 +3,8 @@ package tree;
 import java.util.Stack;
 
 public class BinaryTree {
+	
+	TreeNode rootNode;
 
 	static class TreeNode {
 		public TreeNode(int data) {
@@ -14,7 +16,7 @@ public class BinaryTree {
 		TreeNode right;
 	}
 
-	public static TreeNode createBinaryTree() {
+	public TreeNode createBinaryTree() {
 
 		TreeNode rootNode = new TreeNode(40);
 		TreeNode node20 = new TreeNode(20);
@@ -37,11 +39,11 @@ public class BinaryTree {
 
 		node10.left = node5;
 		node50.left = node55;
-
+		this.rootNode = rootNode;
 		return rootNode;
 	}
 
-	static Stack<TreeNode> printSpiral(Stack<TreeNode> s, String flag) {
+	public Stack<TreeNode> printSpiral(Stack<TreeNode> s, String flag) {
 		Stack<TreeNode> printStack = new Stack<>();
 		while (!s.isEmpty()) {
 			TreeNode node = s.pop();
@@ -59,20 +61,20 @@ public class BinaryTree {
 		return printStack;
 	}
 
-	static void inOrder(TreeNode node) {
+	public void inOrder(TreeNode node) {
 		if (node != null) {
 			System.out.println(node.data);
 			inOrder(node.left);
 			inOrder(node.right);
 		}
 	}
-	
-	static int getMax(TreeNode node) {
-		int max =0;
+	//int max;
+	public int getMax(TreeNode node,int max) {
+		//int max =0;
 		if (node != null) {
 			int value =node.data;
-			int left = getMax(node.left);
-			int right = getMax(node.right);
+			int left = getMax(node.left,max);
+			int right = getMax(node.right,max);
 			if(left  > right){
 				max = left;
 			}else{
@@ -84,10 +86,22 @@ public class BinaryTree {
 		}
 		return max;
 	}
-
-	public static void main(String[] args) {
+	int count;
+	public int countLeafNodes(TreeNode node) {
+		//int count =0;
+		if (node != null) {			
+			if(node.left == null && node.right == null)
+				count++;
+			countLeafNodes(node.left);
+			countLeafNodes(node.right);
+			
+		}
+		return count;
+	}
+	
+	private void printZigZag(){
 		Stack<TreeNode> s = new Stack<>();
-		s.push(createBinaryTree());
+		s.push(rootNode);
 		int i = 1;
 		while (!s.isEmpty()) {
 			if (i % 2 != 0)
@@ -96,10 +110,20 @@ public class BinaryTree {
 				s = printSpiral(s, "LR");
 			i++;
 		}
+	}
+
+	public static void main(String[] args) {
+		int a = 5/2;
+		System.out.println(a);
+		BinaryTree tree = new BinaryTree();
+		tree.createBinaryTree();
+		tree.printZigZag();
 		System.out.println("----------------");
-		inOrder(createBinaryTree());
+		tree.inOrder(tree.rootNode);
 		System.out.println("----------------");
-		System.out.println(getMax(createBinaryTree()));
+		System.out.println(tree.getMax(tree.rootNode,tree.rootNode.data));
+		System.out.println("----------------");
+		System.out.println(tree.countLeafNodes(tree.rootNode));
 	}
 
 }
