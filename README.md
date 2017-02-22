@@ -51,5 +51,11 @@ JAX-RS
 ------
 
 
+@Path("/url")
+@GET,@POST - http methods annotated with methods
+@Produces(MediaType.*) - send back the response in the sepcified format
+
+
+
 
 
